@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 
-@interface ViewController : UIViewController
+@interface ControlPanelViewController : baseViewController
 
+@property (strong, nonatomic) NSString *channelCount;
+
+@property (assign, nonatomic) BOOL isWiFi;
+
+@property (assign, nonatomic) BOOL isBasic;
 
 @end
 

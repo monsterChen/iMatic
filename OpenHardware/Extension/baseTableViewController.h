@@ -1,14 +1,15 @@
 //
-//  ViewController.h
-//  basePoj
+//  baseTableViewController.h
+//  iMatic
 //
-//  Created by Kingyeung.Chan on 16/5/29.
+//  Created by Kingyeung.Chan on 16/6/12.
 //  Copyright © 2016年 Kingyeung.Chan. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface baseViewController : UIViewController
+
+@interface baseTableViewController : UITableViewController
 
 @property(assign,nonatomic) BOOL isNavBarHide;
 
@@ -42,9 +43,8 @@
 
 - (UIBarButtonItem *)genUINavigationRightButton:(UIImage *)bgImage andSize:(CGSize) size andEvent: (SEL)pressEvent;
 
-- (NSString *)getFilePathFromDirectoriesInDomains:(NSString *)fileName;
+- (NSString *)getFileFromDirectoriesInDomains:(NSString *)fileName;
 
 - (NSString *)getFilePathForResource:(NSString *)fileName;
 
 @end
-

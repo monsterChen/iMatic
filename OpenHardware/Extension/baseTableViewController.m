@@ -1,23 +1,29 @@
 //
-//  ViewController.m
-//  basePoj
+//  baseTableViewController.m
+//  iMatic
 //
-//  Created by Kingyeung.Chan on 16/5/29.
+//  Created by Kingyeung.Chan on 16/6/12.
 //  Copyright © 2016年 Kingyeung.Chan. All rights reserved.
 //
 
-#import "baseViewController.h"
+#import "baseTableViewController.h"
 
-@interface baseViewController ()
+@interface baseTableViewController ()
 
 @end
 
-@implementation baseViewController
+@implementation baseTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-
+    
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -28,12 +34,12 @@
 #pragma mark - UINavigationBar
 
 - (void)hideNavigationBar {
-
+    
     [[self navigationController] setNavigationBarHidden:YES animated:YES];
 }
 
 - (void)showNavigationBar {
-
+    
     [[self navigationController] setNavigationBarHidden:NO animated:YES];
 }
 
@@ -42,7 +48,7 @@
  *  需要对应实现outKeyEvent事件
  */
 - (void)recoveryOfKeyboard {
-
+    
     UITapGestureRecognizer *keyGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(outKeyEvent)];
     keyGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:keyGesture];
@@ -51,22 +57,22 @@
 #pragma mark - UITabBarController
 #warning you have to change to your tabBarController
 - (void)hideTabBar {
-
-    /*
-    UITabBarController *tab = [(AppDelegate *)[[UIApplication sharedApplication] delegate] tab];
     
-    tab.tabBar.hidden = YES;
+    /*
+     UITabBarController *tab = [(AppDelegate *)[[UIApplication sharedApplication] delegate] tab];
+     
+     tab.tabBar.hidden = YES;
      */
     
     //do something
 }
 
 - (void)showTabBar {
-
-    /*
-    UITabBarController *tab = [(AppDelegate *)[[UIApplication sharedApplication] delegate] tab];
     
-    tab.tabBar.hidden = NO;
+    /*
+     UITabBarController *tab = [(AppDelegate *)[[UIApplication sharedApplication] delegate] tab];
+     
+     tab.tabBar.hidden = NO;
      */
     
     //do something
@@ -109,7 +115,7 @@
  *  @return
  */
 - (UIBarButtonItem *)genUINavigationLeftButton:(SEL)pressEvent andImage:(UIImage *)image {
-
+    
     UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithImage:image
                                                                    style:UIBarButtonItemStylePlain
                                                                   target:self
@@ -129,7 +135,7 @@
  *  @return
  */
 - (UIBarButtonItem *)genUINavigationRightButton:(NSString *)title andEvent:(SEL)pressEvent {
-
+    
     UIBarButtonItem *button = [[UIBarButtonItem alloc] initWithTitle: title
                                                                style: UIBarButtonItemStylePlain
                                                               target: self
@@ -148,7 +154,7 @@
  *  @return
  */
 - (UIBarButtonItem *)genUINavigationRightButton:(UIImage *)bgImage andSize:(CGSize)size andEvent:(SEL)pressEvent {
-
+    
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     
     [btn setBackgroundImage:bgImage forState:UIControlStateNormal];
@@ -164,9 +170,10 @@
     return  item;
 }
 
-- (NSString *)getFilePathFromDirectoriesInDomains:(NSString *)fileName {
 
-    NSArray *paths= NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+- (NSString *)getFileFromDirectoriesInDomains:(NSString *)fileName {
+    
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     
     NSString *path = [paths objectAtIndex:0];
     
@@ -175,8 +182,76 @@
 }
 
 - (NSString *)getFilePathForResource:(NSString *)fileName {
-
+    
     return [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
 }
+
+
+#pragma mark - Table view data source
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+#warning Incomplete implementation, return the number of sections
+    return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+#warning Incomplete implementation, return the number of rows
+    return 0;
+}
+
+/*
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    
+    // Configure the cell...
+    
+    return cell;
+}
+*/
+
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+*/
+
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
 
 @end

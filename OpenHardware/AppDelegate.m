@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <AmazonAd/AmazonAdRegistration.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +18,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [[AmazonAdRegistration sharedRegistration] setAppKey:@"123"];
+    
     return YES;
 }
 

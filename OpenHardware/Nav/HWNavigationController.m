@@ -17,6 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [super genBarTintColor:[UIColor blackColor]];
+    [super setNabigationItemTintColor:[UIColor whiteColor]];
+    [super genTitleTextAttributes:[UIColor whiteColor]];
 }
 
 - (void)didReceiveMemoryWarning {

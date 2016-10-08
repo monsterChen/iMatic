@@ -7,8 +7,17 @@
 //
 
 #import "HomeTableViewController.h"
+#import "ControlPanelViewController.h"
 
 @interface HomeTableViewController ()
+
+@property (nonatomic, strong) NSArray *menuArray;
+
+@property (assign, nonatomic) NSString *channelCount;
+
+@property (assign, nonatomic) BOOL isWifi;
+
+@property (assign, nonatomic) BOOL isBasic;
 
 @end
 
@@ -22,6 +31,13 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    //self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    //self.tableView.backgroundColor = [UIColor darkGrayColor];
+    
+    self.menuArray = [NSArray arrayWithObjects:@"8 Channels", @"8 Channels with WiFi", @"16 Channels", @"16 Channels with WiFi", nil];
+    
+    [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,23 +49,45 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 0;
+    return [self.menuArray count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chennalTypeCell"];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     // Configure the cell...
+    cell.textLabel.text = [self.menuArray objectAtIndex:indexPath.row];
     
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row == 0 || indexPath.row == 1) {
+        self.channelCount = @"8";
+    }else {
+    
+        self.channelCount = @"16";
+    }
+    
+    if (indexPath.row == 0 || indexPath.row == 2) {
+        self.isWifi = NO;
+    }else {
+        self.isWifi = YES;
+    }
+    
+    [self performSegueWithIdentifier:@"showControllerPanel" sender:self];
+}
 
 /*
 // Override to support conditional editing of the table view.
@@ -85,14 +123,17 @@
 }
 */
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    ControlPanelViewController *viewController = [segue destinationViewController];
+    [viewController setIsWiFi:self.isWifi];
+    [viewController setChannelCount:self.channelCount];
 }
-*/
 
 @end
