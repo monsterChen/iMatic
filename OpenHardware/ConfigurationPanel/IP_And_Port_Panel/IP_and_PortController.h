@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseTableViewController.h"
 
-@interface IP_and_PortController : UITableViewController
+@interface IP_and_PortController : baseTableViewController
 
 @end

@@ -24,6 +24,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    [SVProgressHUD setMinimumDismissTimeInterval:1.5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -168,22 +170,6 @@
     self.navigationItem.rightBarButtonItem=item;
     
     return  item;
-}
-
-
-- (NSString *)getFileFromDirectoriesInDomains:(NSString *)fileName {
-    
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    
-    NSString *path = [paths objectAtIndex:0];
-    
-    return [path stringByAppendingPathComponent:fileName];
-    
-}
-
-- (NSString *)getFilePathForResource:(NSString *)fileName {
-    
-    return [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
 }
 
 

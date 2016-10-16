@@ -9,7 +9,10 @@
 #import "HomeTableViewController.h"
 #import "ControlPanelViewController.h"
 
-@interface HomeTableViewController ()
+@interface HomeTableViewController () {
+    
+    NSTimer *autoTimer;
+}
 
 @property (nonatomic, strong) NSArray *menuArray;
 
@@ -38,6 +41,32 @@
     self.menuArray = [NSArray arrayWithObjects:@"8 Channels", @"8 Channels with WiFi", @"16 Channels", @"16 Channels with WiFi", nil];
     
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
+    
+}
+
+- (void)excute {
+
+    if (autoTimer) {
+        [autoTimer invalidate];
+        autoTimer = nil;
+    }
+    
+    autoTimer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(testPrint) userInfo:nil repeats:NO];
+}
+
+- (void)cancelTimer {
+
+    if (autoTimer != nil) {
+        [autoTimer invalidate];
+        autoTimer = nil;
+    }
+    
+    NSLog(@"cancel");
+}
+
+- (void)testPrint {
+
+    NSLog(@"timer run");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,9 +100,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.row == 0 || indexPath.row == 1) {
+        
         self.channelCount = @"8";
     }else {
     

@@ -24,4 +24,8 @@
 
 + (BOOL)isValidNumber:(NSString*)value;
 
++ (BOOL)isValidatIP:(NSString *)ipAddress;
+
++ (BOOL)isValidatPort:(NSString *)port;
+
 @end

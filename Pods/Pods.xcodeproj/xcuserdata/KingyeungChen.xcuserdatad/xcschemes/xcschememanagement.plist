@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FMDB.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>HSDatePickerViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,7 +47,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>3C37398CA61025D32A90BEB8E82447B0</key>
+		<key>529D2907621EC7C5BC5D530A272185B3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,12 +57,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>75DCF398B94B829C9B583C1F9EFE3789</key>
+		<key>9D32BA9C93551E37E9EEE3AD8FB35CF5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9D32BA9C93551E37E9EEE3AD8FB35CF5</key>
+		<key>9F12FB4A63E20F601CFB2E64A65B57C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -73,6 +78,11 @@
 			<true/>
 		</dict>
 		<key>DDF03C9BDCFB851848C525335204275F</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E73F512A211D3E82A35C1F25C30EF698</key>
 		<dict>
 			<key>primary</key>
 			<true/>

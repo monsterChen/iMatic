@@ -60,16 +60,7 @@ BOOL isNumber (char ch) {
 
     return [[str stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isEqualToString:@""];
 }
-/*
-+ (UIImage *)scaleImage:(UIImage *)image toScale:(float)scaleSize {
-    
-    UIGraphicsBeginImageContext(CGSizeMake(image.size.width * scaleSize, image.size.height * scaleSize));
-                                
-    [image drawInRect:CGRectMake(0, 0, image.size.width * scaleSize, image.size.height * scaleSize)];
-                                UIImage *scaledImage = UIGraphicsGetImageFromCurrentImageContext();
-                                UIGraphicsEndImageContext();
-    return scaledImage;
-}*/
+
 
 + (BOOL)isPureInt:(NSString*)string {
 
@@ -140,6 +131,27 @@ BOOL isNumber (char ch) {
     }else {
         return NO;
     }
+}
+
++ (BOOL)isValidatIP:(NSString *)ipAddress {
+    
+    NSString  *urlRegEx =@"^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
+    "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
+    
+    NSPredicate *urlTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", urlRegEx];
+    return [urlTest evaluateWithObject:ipAddress];
+}
+
++ (BOOL)isValidatPort:(NSString *)port {
+
+    if (port.length == 0) {
+        return NO;
+    }
+    
+    return ![[port substringToIndex:1] isEqualToString:@"0"] && [self isPureInt:port];
+
 }
 
 @end

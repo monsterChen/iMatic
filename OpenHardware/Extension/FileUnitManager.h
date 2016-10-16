@@ -10,4 +10,8 @@
 
 @interface FileUnitManager : NSObject
 
++ (NSString *)getFilePathFromDirectoriesInDomains:(NSString *)fileName;
+
++ (NSString *)getFilePathForResource:(NSString *)fileName;
+
 @end

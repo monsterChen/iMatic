@@ -7,8 +7,14 @@
 //
 
 #import "ButtonNameController.h"
+#import "DBManager.h"
+#import "EGOCache.h"
+#import "IdentifierValidator.h"
+
 
 @interface ButtonNameController ()
+
+@property (nonatomic, strong) NSMutableArray *listArray;
 
 @end
 
@@ -22,6 +28,12 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
+    
+    self.listArray = [[[DBManager shareInstance] queryChannelBtnName:[self getSelectChannelType] isWifi:[self getSelectisWifi]] mutableCopy];
+    
+    [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -29,27 +41,108 @@
     // Dispose of any resources that can be recreated.
 }
 
+/**
+ *  获取选择的控制器型号
+ *
+ *  @return
+ */
+- (NSString *)getSelectChannelType {
+    
+    return [[EGOCache globalCache] stringForKey:@"channelCount"];
+}
+
+/**
+ *  获取选择的控制器型号
+ *
+ *  @return
+ */
+- (BOOL)getSelectisWifi {
+    
+    return [[[EGOCache globalCache] stringForKey:@"isWiFi"] isEqualToString:@"1"] ? YES:NO;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return 0;
+    return [self.listArray count];
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"btnNameCell" forIndexPath:indexPath];
     
     // Configure the cell...
     
+    cell.textLabel.text = [self.listArray objectAtIndex:indexPath.row];
+    
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
     return cell;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    //按钮名字设置弹出窗口
+    UIAlertController *alertViewController = [UIAlertController alertControllerWithTitle:@"" message:@"Please input the button name" preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    [alertViewController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = cell.textLabel.text;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertTextFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
+    }];
+    //ok button
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        UITextField *btnName = alertViewController.textFields.firstObject;
+        
+        //NSLog(@"row->%ld, %@, wifi->%d", indexPath.row, btnName.text, [self getSelectisWifi]);
+        
+        [[DBManager shareInstance] updateChannelBtnNameWithType:[self getSelectChannelType] isWifi:[self getSelectisWifi] index:indexPath.row name:btnName.text];
+        
+        self.listArray = [[[DBManager shareInstance] queryChannelBtnName:[self getSelectChannelType] isWifi:[self getSelectisWifi]] mutableCopy];
+        
+        [self.tableView reloadData];
+        
+    }];
+    
+    okAction.enabled = NO;
+    
+    //cancel button
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    [alertViewController addAction:okAction];
+    [alertViewController addAction:cancelAction];
+    
+    [self presentViewController:alertViewController animated:YES completion:nil];
+}
+
+- (void)alertTextFieldDidChange:(NSNotification *)notification {
+    
+    UIAlertController *alertController = (UIAlertController *)self.presentedViewController;
+    
+    if (alertController) {
+        
+        UITextField *btnName = alertController.textFields.firstObject;
+        UIAlertAction *okAction = alertController.actions.firstObject;
+        
+        okAction.enabled = btnName.text.length > 2;
+    }
+}
+
 
 /*
 // Override to support conditional editing of the table view.

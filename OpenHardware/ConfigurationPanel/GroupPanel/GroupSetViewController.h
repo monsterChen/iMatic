@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 
-@interface GroupSetViewController : UIViewController
+@interface GroupSetViewController : baseViewController
 
 @end

@@ -35,6 +35,14 @@
 		501601861DA813FF00F4A5BD /* channelAll.m in Sources */ = {isa = PBXBuildFile; fileRef = 501601851DA813FF00F4A5BD /* channelAll.m */; };
 		5016018A1DA93D9400F4A5BD /* ConfigurationListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 501601891DA93D9400F4A5BD /* ConfigurationListController.m */; };
 		5016018D1DA9455100F4A5BD /* baseTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5016018C1DA9455100F4A5BD /* baseTableViewController.m */; };
+		501601901DAA0B4300F4A5BD /* FileUnitManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5016018F1DAA0B4300F4A5BD /* FileUnitManager.m */; };
+		501601931DAA34BB00F4A5BD /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 501601921DAA34BB00F4A5BD /* DBManager.m */; };
+		501601971DAA9D5300F4A5BD /* IP_and_PortController.m in Sources */ = {isa = PBXBuildFile; fileRef = 501601961DAA9D5300F4A5BD /* IP_and_PortController.m */; };
+		5016019B1DAAA20000F4A5BD /* settingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5016019A1DAAA1FF00F4A5BD /* settingCell.m */; };
+		504103141DB253A000205A22 /* IdentifierValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = 504103131DB253A000205A22 /* IdentifierValidator.m */; };
+		504103181DB2917E00205A22 /* ButtonNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 504103171DB2917E00205A22 /* ButtonNameController.m */; };
+		5041031C1DB36ED500205A22 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5041031B1DB36ED500205A22 /* GroupViewController.m */; };
+		5041031F1DB3CB8700205A22 /* GroupSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5041031E1DB3CB8700205A22 /* GroupSetViewController.m */; };
 		DEF6E7787B883E041E81DBA6 /* libPods-OpenHardware.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 525FE350F07C11F19FA90568 /* libPods-OpenHardware.a */; };
 /* End PBXBuildFile section */
 
@@ -93,6 +101,22 @@
 		501601891DA93D9400F4A5BD /* ConfigurationListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigurationListController.m; sourceTree = "<group>"; };
 		5016018B1DA9455100F4A5BD /* baseTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = baseTableViewController.h; sourceTree = "<group>"; };
 		5016018C1DA9455100F4A5BD /* baseTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = baseTableViewController.m; sourceTree = "<group>"; };
+		5016018E1DAA0B4300F4A5BD /* FileUnitManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUnitManager.h; sourceTree = "<group>"; };
+		5016018F1DAA0B4300F4A5BD /* FileUnitManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUnitManager.m; sourceTree = "<group>"; };
+		501601911DAA34BB00F4A5BD /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		501601921DAA34BB00F4A5BD /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		501601951DAA9D5300F4A5BD /* IP_and_PortController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IP_and_PortController.h; sourceTree = "<group>"; };
+		501601961DAA9D5300F4A5BD /* IP_and_PortController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IP_and_PortController.m; sourceTree = "<group>"; };
+		501601991DAAA1FF00F4A5BD /* settingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = settingCell.h; sourceTree = "<group>"; };
+		5016019A1DAAA1FF00F4A5BD /* settingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = settingCell.m; sourceTree = "<group>"; };
+		504103121DB253A000205A22 /* IdentifierValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IdentifierValidator.h; sourceTree = "<group>"; };
+		504103131DB253A000205A22 /* IdentifierValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IdentifierValidator.m; sourceTree = "<group>"; };
+		504103161DB2917E00205A22 /* ButtonNameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonNameController.h; sourceTree = "<group>"; };
+		504103171DB2917E00205A22 /* ButtonNameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonNameController.m; sourceTree = "<group>"; };
+		5041031A1DB36ED500205A22 /* GroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupViewController.h; sourceTree = "<group>"; };
+		5041031B1DB36ED500205A22 /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
+		5041031D1DB3CB8700205A22 /* GroupSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupSetViewController.h; sourceTree = "<group>"; };
+		5041031E1DB3CB8700205A22 /* GroupSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupSetViewController.m; sourceTree = "<group>"; };
 		525FE350F07C11F19FA90568 /* libPods-OpenHardware.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenHardware.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		714B0891DC29DEAAA972D1F0 /* Pods-OpenHardware.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenHardware.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenHardware/Pods-OpenHardware.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -203,6 +227,12 @@
 				5016017F1DA76B9600F4A5BD /* baseViewController.m */,
 				5016018B1DA9455100F4A5BD /* baseTableViewController.h */,
 				5016018C1DA9455100F4A5BD /* baseTableViewController.m */,
+				5016018E1DAA0B4300F4A5BD /* FileUnitManager.h */,
+				5016018F1DAA0B4300F4A5BD /* FileUnitManager.m */,
+				501601911DAA34BB00F4A5BD /* DBManager.h */,
+				501601921DAA34BB00F4A5BD /* DBManager.m */,
+				504103121DB253A000205A22 /* IdentifierValidator.h */,
+				504103131DB253A000205A22 /* IdentifierValidator.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -250,10 +280,52 @@
 		501601871DA93D6E00F4A5BD /* ConfigurationPanel */ = {
 			isa = PBXGroup;
 			children = (
+				504103191DB36CFB00205A22 /* GroupPanel */,
+				504103151DB2915400205A22 /* BasicPanel */,
+				501601981DAAA1E600F4A5BD /* View */,
+				501601941DAA9D2C00F4A5BD /* IP_And_Port_Panel */,
 				501601881DA93D9400F4A5BD /* ConfigurationListController.h */,
 				501601891DA93D9400F4A5BD /* ConfigurationListController.m */,
 			);
 			path = ConfigurationPanel;
+			sourceTree = "<group>";
+		};
+		501601941DAA9D2C00F4A5BD /* IP_And_Port_Panel */ = {
+			isa = PBXGroup;
+			children = (
+				501601951DAA9D5300F4A5BD /* IP_and_PortController.h */,
+				501601961DAA9D5300F4A5BD /* IP_and_PortController.m */,
+			);
+			path = IP_And_Port_Panel;
+			sourceTree = "<group>";
+		};
+		501601981DAAA1E600F4A5BD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				501601991DAAA1FF00F4A5BD /* settingCell.h */,
+				5016019A1DAAA1FF00F4A5BD /* settingCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		504103151DB2915400205A22 /* BasicPanel */ = {
+			isa = PBXGroup;
+			children = (
+				504103161DB2917E00205A22 /* ButtonNameController.h */,
+				504103171DB2917E00205A22 /* ButtonNameController.m */,
+			);
+			path = BasicPanel;
+			sourceTree = "<group>";
+		};
+		504103191DB36CFB00205A22 /* GroupPanel */ = {
+			isa = PBXGroup;
+			children = (
+				5041031A1DB36ED500205A22 /* GroupViewController.h */,
+				5041031B1DB36ED500205A22 /* GroupViewController.m */,
+				5041031D1DB3CB8700205A22 /* GroupSetViewController.h */,
+				5041031E1DB3CB8700205A22 /* GroupSetViewController.m */,
+			);
+			path = GroupPanel;
 			sourceTree = "<group>";
 		};
 		AFB844B1DAD3092479B532F0 /* Frameworks */ = {
@@ -433,16 +505,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				501601731DA603E200F4A5BD /* HWNavigationController.m in Sources */,
+				501601971DAA9D5300F4A5BD /* IP_and_PortController.m in Sources */,
 				5016018A1DA93D9400F4A5BD /* ConfigurationListController.m in Sources */,
+				5041031C1DB36ED500205A22 /* GroupViewController.m in Sources */,
 				501601801DA76B9600F4A5BD /* baseViewController.m in Sources */,
 				501601371DA4EF1400F4A5BD /* ControlPanelViewController.m in Sources */,
 				5016017D1DA76B8000F4A5BD /* XFSegementView.m in Sources */,
+				5016019B1DAAA20000F4A5BD /* settingCell.m in Sources */,
+				501601901DAA0B4300F4A5BD /* FileUnitManager.m in Sources */,
 				501601341DA4EF1400F4A5BD /* AppDelegate.m in Sources */,
+				501601931DAA34BB00F4A5BD /* DBManager.m in Sources */,
 				5016018D1DA9455100F4A5BD /* baseTableViewController.m in Sources */,
 				501601861DA813FF00F4A5BD /* channelAll.m in Sources */,
 				501601831DA7864300F4A5BD /* channelCellBtn.m in Sources */,
 				501601311DA4EF1400F4A5BD /* main.m in Sources */,
+				5041031F1DB3CB8700205A22 /* GroupSetViewController.m in Sources */,
+				504103181DB2917E00205A22 /* ButtonNameController.m in Sources */,
 				501601771DA634BF00F4A5BD /* HomeTableViewController.m in Sources */,
+				504103141DB253A000205A22 /* IdentifierValidator.m in Sources */,
 				5016016F1DA602F300F4A5BD /* baseNavigationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

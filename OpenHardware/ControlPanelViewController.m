@@ -14,6 +14,8 @@
 #import "XFSegementView.h"
 #import "channelCellBtn.h"
 #import "channelAll.h"
+#import "DBManager.h"
+#import "EGOCache.h"
 
 @interface ControlPanelViewController ()<AmazonAdViewDelegate, GADBannerViewDelegate, TouchLabelDelegate, UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -27,10 +29,19 @@
 
 @property (weak, nonatomic) IBOutlet channelAll *all_BTN;
 
+@property (strong, nonatomic) NSMutableArray *listArray;
 
 @end
 
 @implementation ControlPanelViewController
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    
+    self.listArray = [[[DBManager shareInstance] queryChannelBtnName:self.channelCount isWifi:self.isWiFi] mutableCopy];
+    [self.collectionnView reloadData];
+}
 
 
 - (void)viewDidLoad {
@@ -70,7 +81,10 @@
     
     // set all_BTN is visual
     self.all_BTN.hidden = NO;
-
+    
+    self.listArray = [[[DBManager shareInstance] queryChannelBtnName:self.channelCount isWifi:self.isWiFi] mutableCopy];
+    [[EGOCache globalCache] setString:self.channelCount forKey:@"channelCount"];
+    [[EGOCache globalCache] setString:(self.isWiFi ? @"1":@"0") forKey:@"isWiFi"];
 }
 
 
@@ -180,7 +194,7 @@
     
     channelCellBtn *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
-    cell.labelText.text = [NSString stringWithFormat:@"RELAY%ld", indexPath.row+1];
+    cell.labelText.text = [self.listArray objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -196,6 +210,7 @@
     
     [cell updateChannelStatus];
 }
+
 
 
 @end

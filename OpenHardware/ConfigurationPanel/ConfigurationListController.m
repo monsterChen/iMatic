@@ -23,6 +23,8 @@
     [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
     self.listArray = [[NSArray alloc] initWithObjects:@"Update IP & port", @"Basic", @"Group", @"Buy it", nil];
+    
+    [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,6 +58,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row == 0) {
+        
+        [self performSegueWithIdentifier:@"ip_and_port" sender:self];
+    } else if(indexPath.row == 1) {
+        
+        [self performSegueWithIdentifier:@"buttonNameController" sender:self];
+    } else if (indexPath.row == 2) {
+        
+        [self performSegueWithIdentifier:@"groupViewController" sender:self];
+    }
 }
 
 @end

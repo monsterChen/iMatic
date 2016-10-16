@@ -17,7 +17,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-
+    
+    [SVProgressHUD setMinimumDismissTimeInterval:1.5];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -164,19 +165,5 @@
     return  item;
 }
 
-- (NSString *)getFilePathFromDirectoriesInDomains:(NSString *)fileName {
-
-    NSArray *paths= NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
-    
-    NSString *path = [paths objectAtIndex:0];
-    
-    return [path stringByAppendingPathComponent:fileName];
-    
-}
-
-- (NSString *)getFilePathForResource:(NSString *)fileName {
-
-    return [[NSBundle mainBundle] pathForResource:fileName ofType:nil];
-}
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SVProgressHUD.h"
 
 @interface baseTableViewController : UITableViewController
 

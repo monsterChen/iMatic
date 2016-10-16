@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import <AmazonAd/AmazonAdRegistration.h>
+#import "DBManager.h"
+#import "EGOCache.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +22,10 @@
     // Override point for customization after application launch.
     
     [[AmazonAdRegistration sharedRegistration] setAppKey:@"123"];
+    
+    [[DBManager shareInstance] getDateBase:@"aurora.db"];
+    
+    
     
     return YES;
 }
@@ -44,6 +50,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
+    [[EGOCache globalCache] clearCache];
 }
 
 @end
