@@ -38,10 +38,9 @@
     //self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     //self.tableView.backgroundColor = [UIColor darkGrayColor];
     
-    self.menuArray = [NSArray arrayWithObjects:@"8 Channels", @"8 Channels with WiFi", @"16 Channels", @"16 Channels with WiFi", nil];
+    self.menuArray = [NSArray arrayWithObjects:@"8 Channels", @"8 Channels with WiFi", @"16 Channels", @"16 Channels with WiFi", @"Buy It", nil];
     
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
-    
 }
 
 - (void)excute {
@@ -75,6 +74,11 @@
 }
 
 #pragma mark - Table view data source
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+
+    return 0.1;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Incomplete implementation, return the number of sections

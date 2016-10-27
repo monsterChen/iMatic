@@ -11,4 +11,10 @@
 
 @interface GroupSetViewController : baseViewController
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+@property (strong, nonatomic) NSString *groupName;
+
 @end

@@ -27,7 +27,7 @@
 - (void)getDateBase:(NSString *)dbName {
 
     NSString *fileName = [FileUnitManager getFilePathFromDirectoriesInDomains:dbName];
-    
+    NSLog(@"-->%@", fileName);
     FMDatabase *db=[FMDatabase databaseWithPath:fileName];
     
     if ([db open]) {
@@ -59,8 +59,200 @@
             }
         }
         
+        [self.db executeUpdate:@"CREATE TABLE IF NOT EXISTS group_16channel (name text,type text,btn_1 text DEFAULT '00', btn_2 text DEFAULT '00', btn_3 text DEFAULT '00', btn_4 text DEFAULT '00', btn_5 text DEFAULT '00', btn_6 text DEFAULT '00', btn_7 text DEFAULT '00', btn_8 text DEFAULT '00', btn_9 text DEFAULT '00', btn_10 text DEFAULT '00', btn_11 text DEFAULT '00', btn_12 text DEFAULT '00', btn_13 text DEFAULT '00', btn_14 text DEFAULT '00', btn_15 text DEFAULT '00', btn_16 text DEFAULT '00');"];
+        
+        [self.db executeUpdate:@"CREATE TABLE IF NOT EXISTS group_8channel (name text,type text,btn_1 text DEFAULT '00', btn_2 text DEFAULT '00', btn_3 text DEFAULT '00', btn_4 text DEFAULT '00', btn_5 text DEFAULT '00', btn_6 text DEFAULT '00', btn_7 text DEFAULT '00', btn_8 text DEFAULT '00');"];
     }
 }
+
+- (NSString *)setupGroupType:(BOOL)isWifi {
+
+    return [NSString stringWithFormat:@"%@", (isWifi ? @"wifi" : @"")];
+}
+
+- (NSString *)setupGroupTable:(NSString *)channel {
+
+    return [NSString stringWithFormat:@"group_%@channel", channel];
+}
+/**
+ *  获取Group的按钮
+ *
+ *  @param name    group的名字
+ *  @param channel 8或16
+ *  @param isWifi  是否wifi
+ *
+ *  @return
+ */
+- (NSMutableArray *)queryGroupButton:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi {
+
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *groupTable = [self setupGroupTable:channel];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE name = '%@' and type = '%@'", groupTable, name, type];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    while (rs.next) {
+        
+        for(int i = 1; i <= [channel intValue]; i++) {
+            
+            NSString *btnColumn = [NSString stringWithFormat:@"btn_%d", i];
+            [array addObject:[rs stringForColumn:btnColumn]];
+        }
+    }
+    
+    NSMutableArray *groupArray = [NSMutableArray array];
+    
+    for(int i = 0; i < [array count]; i++) {
+        
+        GroupModel *model = [[GroupModel alloc] initGroup:[array objectAtIndex:i] index:i];
+        
+        [groupArray addObject:model];
+    }
+    
+    return groupArray;
+}
+
+- (BOOL)updateGroupButtonSelectState:(NSString *)Checkmark channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName index:(NSInteger)index{
+
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *groupTable = [self setupGroupTable:channel];
+    
+    Checkmark = [Checkmark isEqualToString:@"1"] ? @"10" : @"00";
+    
+    NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET btn_%ld = '%@' WHERE name = '%@' and type = '%@'", groupTable, index+1, Checkmark, groupName, type];
+    
+    return [self.db executeUpdate:update];
+}
+
+- (BOOL)updateGroupButtonState:(NSString *)mark channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName index:(NSInteger)index  {
+
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *groupTable = [self setupGroupTable:channel];
+    
+    mark = [mark isEqualToString:@"1"] ? @"11" : @"10";
+    
+    NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET btn_%ld = '%@' WHERE name = '%@' and type = '%@'", groupTable, index+1, mark, groupName, type];
+    
+    return [self.db executeUpdate:update];
+}
+
+/**
+ *  列举group数组
+ *
+ *  @param channel <#channel description#>
+ *  @param isWifi  <#isWifi description#>
+ *
+ *  @return <#return value description#>
+ */
+- (NSMutableArray *)queryGroupNameArray:(NSString *)channel isWifi:(BOOL)isWifi {
+
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *groupTable = [self setupGroupTable:channel];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT name FROM %@ WHERE type = '%@'", groupTable, type];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    while (rs.next) {
+        
+        [array addObject:[rs stringForColumn:@"name"]];
+    }
+    
+    return array;
+}
+
+/**
+ *  删除指定group
+ *
+ *  @param name    <#name description#>
+ *  @param channel <#channel description#>
+ *  @param isWifi  <#isWifi description#>
+ *
+ *  @return <#return value description#>
+ */
+- (BOOL)deleteGroupByName:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi {
+
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *groupTable = [self setupGroupTable:channel];
+    
+    NSString *delete = [NSString stringWithFormat:@"DELETE FROM %@ WHERE name = '%@' and type = '%@'", groupTable, name, type];
+    
+    return [self.db executeUpdate:delete];
+}
+
+/**
+ *  检测groupName是否已经存在
+ *
+ *  @param groupName <#groupName description#>
+ *  @param channel   <#channel description#>
+ *  @param isWifi    <#isWifi description#>
+ *
+ *  @return <#return value description#>
+ */
+- (BOOL)isGroupNameExists:(NSString *)groupName channel:(NSString *)channel isWifi:(BOOL)isWifi {
+
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *groupTable = [self setupGroupTable:channel];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE name = '%@' and type = '%@'", groupTable, groupName, type];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    
+    if (rs.next) {
+        
+        return YES;
+    }
+    
+    return NO;
+}
+/**
+ *  更新groupName
+ *
+ *  @param groupName <#groupName description#>
+ *  @param newName   <#newName description#>
+ *  @param channel   <#channel description#>
+ *  @param isWifi    <#isWifi description#>
+ *
+ *  @return <#return value description#>
+ */
+- (BOOL)updateGroupName:(NSString *)groupName newGroupName:(NSString *)newName channel:(NSString *)channel isWifi:(BOOL)isWifi {
+
+    if ([self isGroupNameExists:groupName channel:channel isWifi:isWifi]) {
+        
+        NSString *type = [self setupGroupType:isWifi];
+        
+        NSString *groupTable = [self setupGroupTable:channel];
+        NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET name = '%@' WHERE name = '%@' and type = '%@'", groupTable, groupName, newName, type];
+        
+        return [self.db executeUpdate:update];
+    }
+    
+    return NO;
+}
+
+- (BOOL)createGroup:(NSString *)groupName channel:(NSString *)channel isWifi:(BOOL)isWifi {
+    
+    if (! [self isGroupNameExists:groupName channel:channel isWifi:isWifi]) {
+        
+        NSString *type = [self setupGroupType:isWifi];
+        NSString *groupTable = [self setupGroupTable:channel];
+        NSString *insert = [NSString stringWithFormat:@"INSERT INTO %@ ", groupTable];
+        insert = [insert stringByAppendingString:@"(name, type) VALUES (?,?);"];
+        
+        return [self.db executeUpdate:insert, groupName, type];
+    }
+    //NSLog(@"exit group");
+    return NO;
+}
+
 
 - (void)initialData {
 

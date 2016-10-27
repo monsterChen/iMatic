@@ -195,6 +195,7 @@
     channelCellBtn *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     
     cell.labelText.text = [self.listArray objectAtIndex:indexPath.row];
+    cell.index = indexPath.row;
     
     return cell;
 }

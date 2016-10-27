@@ -10,6 +10,7 @@
 #import "DBManager.h"
 #import "EGOCache.h"
 #import "IdentifierValidator.h"
+#import "EGOManager.h"
 
 
 @interface ButtonNameController ()
@@ -31,7 +32,7 @@
     
     [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
-    self.listArray = [[[DBManager shareInstance] queryChannelBtnName:[self getSelectChannelType] isWifi:[self getSelectisWifi]] mutableCopy];
+    self.listArray = [[[DBManager shareInstance] queryChannelBtnName:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]] mutableCopy];
     
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
 }
@@ -41,27 +42,13 @@
     // Dispose of any resources that can be recreated.
 }
 
-/**
- *  获取选择的控制器型号
- *
- *  @return
- */
-- (NSString *)getSelectChannelType {
-    
-    return [[EGOCache globalCache] stringForKey:@"channelCount"];
-}
-
-/**
- *  获取选择的控制器型号
- *
- *  @return
- */
-- (BOOL)getSelectisWifi {
-    
-    return [[[EGOCache globalCache] stringForKey:@"isWiFi"] isEqualToString:@"1"] ? YES:NO;
-}
 
 #pragma mark - Table view data source
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+
+    return 0.1;
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 #warning Incomplete implementation, return the number of sections
@@ -109,9 +96,9 @@
         
         //NSLog(@"row->%ld, %@, wifi->%d", indexPath.row, btnName.text, [self getSelectisWifi]);
         
-        [[DBManager shareInstance] updateChannelBtnNameWithType:[self getSelectChannelType] isWifi:[self getSelectisWifi] index:indexPath.row name:btnName.text];
+        [[DBManager shareInstance] updateChannelBtnNameWithType:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] index:indexPath.row name:btnName.text];
         
-        self.listArray = [[[DBManager shareInstance] queryChannelBtnName:[self getSelectChannelType] isWifi:[self getSelectisWifi]] mutableCopy];
+        self.listArray = [[[DBManager shareInstance] queryChannelBtnName:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]] mutableCopy];
         
         [self.tableView reloadData];
         

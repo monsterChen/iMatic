@@ -22,7 +22,7 @@
     
     [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
-    self.listArray = [[NSArray alloc] initWithObjects:@"Update IP & port", @"Basic", @"Group", @"Buy it", nil];
+    self.listArray = [[NSArray alloc] initWithObjects:@"Update IP & port", @"Basic", @"Group", nil];
     
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
 }
@@ -30,6 +30,11 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+
+    return 0.1;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

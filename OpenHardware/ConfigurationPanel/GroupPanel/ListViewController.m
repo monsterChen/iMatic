@@ -1,31 +1,37 @@
 //
-//  GroupViewController.m
+//  ListViewController.m
 //  OpenHardware
 //
-//  Created by Kingyeung.Chan on 16/10/16.
+//  Created by Kingyeung.Chan on 16/10/22.
 //  Copyright © 2016年 Kingyeung.Chan. All rights reserved.
 //
 
-#import "GroupViewController.h"
+#import "ListViewController.h"
 #import "DBManager.h"
 #import "EGOManager.h"
-#import "GroupSetViewController.h"
 
-@interface GroupViewController ()
+#import "GroupModel.h"
+
+#define IsCheckMark     @"1"
+#define NotCheckMark    @"0"
+
+@interface ListViewController ()
 
 @property (nonatomic, strong) NSMutableArray *listArray;
 
-@property (nonatomic, strong) NSString *groupName;
+@property (nonatomic ,strong) NSString *checkMark;
+
+@property (nonatomic, strong) NSMutableArray *groupModelArray;
 
 @end
 
-@implementation GroupViewController
+@implementation ListViewController
 
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
     
-    self.listArray = [[DBManager shareInstance] queryGroupNameArray:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+    [self loadArray];
     
     [self.tableView reloadData];
 }
@@ -41,9 +47,25 @@
     
     [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
+    [super genUINavigationRightButton:[UIImage imageNamed:@"save"] andSize:CGSizeMake(20, 20) andEvent:@selector(saveSelect)];
+    
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
     
-    self.listArray = [[DBManager shareInstance] queryGroupNameArray:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    self.checkMark = NotCheckMark;
+    
+    self.listArray = [[[DBManager shareInstance] queryChannelBtnName:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]] mutableCopy];
+    
+    [self loadArray];
+    
+    //NSLog(@"groupName -> %@", self.groupName);
+}
+
+- (void)loadArray {
+    
+    self.groupModelArray = [NSMutableArray array];
+    self.groupModelArray = [[DBManager shareInstance] queryGroupButton:self.groupName channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,8 +73,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)addGroup {
+- (void)saveSelect {
 
+    
 }
 
 #pragma mark - Table view data source
@@ -81,7 +104,13 @@
     
     cell.textLabel.text = [self.listArray objectAtIndex:indexPath.row];
     
-    self.groupName = [self.listArray objectAtIndex:indexPath.row];
+    GroupModel *model = [self.groupModelArray objectAtIndex:indexPath.row];
+    
+    if (model.selectState == isSelect) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }else if (model.selectState == notSelect) {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
     return cell;
 }
@@ -90,35 +119,57 @@
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [self performSegueWithIdentifier:@"GroupSetViewController" sender:self];
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (cell.accessoryType == UITableViewCellAccessoryCheckmark) {
+        
+        self.checkMark = NotCheckMark;
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }else if (cell.accessoryType == UITableViewCellAccessoryNone) {
+        
+        self.checkMark = IsCheckMark;
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    
+    [[DBManager shareInstance] updateGroupButtonSelectState:self.checkMark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:self.groupName index:indexPath.row];
+    
+    /*
+    
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [[DBManager shareInstance] updateGroupButtonSelectState:self.checkMark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:self.groupName index:indexPath.row];
+     
+        NSMutableArray *tmp = [NSMutableArray array];
+        tmp = [[DBManager shareInstance] queryGroupButton:self.groupName channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+        
+        for(GroupModel *model in tmp) {
+            
+            NSLog(@"index->%ld, state->%u isSelect->%u", model.index, model.state, model.selectState);
+        }
+     
+    });
+     */
 }
 
+/*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
+*/
 
-
-
+/*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        
-        [[DBManager shareInstance] deleteGroupByName:[self.listArray objectAtIndex:indexPath.row] channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
-        
-        [self.listArray removeObjectAtIndex:indexPath.row];
-        
-        self.groupName = nil;
-        
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }/*
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }
-      */
+    }   
 }
+*/
 
 /*
 // Override to support rearranging the table view.
@@ -134,19 +185,14 @@
 }
 */
 
-
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    
-    if ([segue.identifier isEqualToString:@"GroupSetViewController"]) {
-        
-        GroupSetViewController *controller = [segue destinationViewController];
-        [controller setGroupName:self.groupName];
-    }
 }
+*/
 
 @end

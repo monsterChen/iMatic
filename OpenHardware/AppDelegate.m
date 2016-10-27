@@ -10,6 +10,7 @@
 #import <AmazonAd/AmazonAdRegistration.h>
 #import "DBManager.h"
 #import "EGOCache.h"
+#import "SVProgressHUD.h"
 
 @interface AppDelegate ()
 
@@ -25,7 +26,7 @@
     
     [[DBManager shareInstance] getDateBase:@"aurora.db"];
     
-    
+    [SVProgressHUD setMinimumDismissTimeInterval:1.2];
     
     return YES;
 }
