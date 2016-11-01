@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NAd-73-aQG">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="NAd-73-aQG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -149,6 +149,7 @@
                         <segue destination="92c-RW-399" kind="push" identifier="ip_and_port" id="UGn-Nk-jfi"/>
                         <segue destination="Ggp-3i-B09" kind="push" identifier="buttonNameController" id="TRL-nl-2NX"/>
                         <segue destination="jIL-VS-sMh" kind="push" identifier="groupViewController" id="GFz-Cy-Kxl"/>
+                        <segue destination="6YB-KI-mai" kind="push" identifier="TimeListController" id="uK3-gs-uJv"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s95-0k-Xz7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -214,10 +215,153 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="JZF-A6-Ag8" kind="push" identifier="settingGroup" id="t5W-0F-dlX"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XGk-vt-04a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3229" y="2594"/>
+        </scene>
+        <!--Time Schedule-->
+        <scene sceneID="kjK-ea-9Ro">
+            <objects>
+                <tableViewController storyboardIdentifier="TimeListController" id="6YB-KI-mai" customClass="TimeListController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="LxW-rG-Z03">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="timeListCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="timeListCell" id="hw7-h8-KD5">
+                                <rect key="frame" x="0.0" y="114" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hw7-h8-KD5" id="TOM-QW-zKO">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="6YB-KI-mai" id="ISS-2w-0Wc"/>
+                            <outlet property="delegate" destination="6YB-KI-mai" id="MbZ-vO-R2e"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Time Schedule" id="fM9-dp-32k">
+                        <barButtonItem key="rightBarButtonItem" image="add" id="n7w-e3-q9e">
+                            <connections>
+                                <segue destination="PEz-Yr-etI" kind="push" identifier="addTimeSetViewController" id="k8m-y7-qVs"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tXk-gK-qAu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3233" y="3354"/>
+        </scene>
+        <!--add Schedule-->
+        <scene sceneID="on5-B1-HY6">
+            <objects>
+                <viewController storyboardIdentifier="TimeSetViewController" id="PEz-Yr-etI" customClass="TimeSetViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="I91-TY-kih"/>
+                        <viewControllerLayoutGuide type="bottom" id="zkI-Lz-D2k"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zLW-JZ-IhL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="2EQ-AU-iWb">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="202"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="rGW-yA-A8n"/>
+                                    <constraint firstAttribute="height" constant="202" id="rh3-3F-MYP"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="timeCell" textLabel="slE-B1-O4w" detailTextLabel="vf8-cH-9Qc" style="IBUITableViewCellStyleValue1" id="nQB-at-OFn">
+                                        <rect key="frame" x="0.0" y="114" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nQB-at-OFn" id="PXE-uv-oPC">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="slE-B1-O4w">
+                                                    <rect key="frame" x="15" y="12" width="32" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="vf8-cH-9Qc">
+                                                    <rect key="frame" x="523" y="12" width="42" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="V90-rS-1PA">
+                                        <rect key="frame" x="0.0" y="158" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="V90-rS-1PA" id="gMg-A8-IbN">
+                                            <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="PEz-Yr-etI" id="EmT-he-kc4"/>
+                                    <outlet property="delegate" destination="PEz-Yr-etI" id="kgf-Nf-Lnl"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="2EQ-AU-iWb" secondAttribute="trailing" constant="-20" id="4YV-F4-ja7"/>
+                            <constraint firstItem="2EQ-AU-iWb" firstAttribute="leading" secondItem="zLW-JZ-IhL" secondAttribute="leadingMargin" constant="-20" id="9BT-T8-BXn"/>
+                            <constraint firstItem="2EQ-AU-iWb" firstAttribute="top" secondItem="zLW-JZ-IhL" secondAttribute="topMargin" id="FDn-q2-aaM"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="add Schedule" id="kSC-k0-Mci"/>
+                    <connections>
+                        <outlet property="tableView" destination="2EQ-AU-iWb" id="I4o-eg-M2W"/>
+                        <segue destination="rZ7-JW-lIh" kind="push" identifier="ListTimeViewController" id="cet-3G-QOu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PUs-VO-NDd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3888" y="3354"/>
+        </scene>
+        <!--Select-->
+        <scene sceneID="VzT-6f-89u">
+            <objects>
+                <tableViewController id="rZ7-JW-lIh" customClass="ListTimeViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="JwQ-Cx-qxg">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="listCell" id="3DR-kp-ghc">
+                                <rect key="frame" x="0.0" y="114" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3DR-kp-ghc" id="4gi-OU-ki7">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="rZ7-JW-lIh" id="OwC-JJ-Bab"/>
+                            <outlet property="delegate" destination="rZ7-JW-lIh" id="SfN-RV-zfc"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Select" id="E7x-BW-abJ"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g9G-Ay-onO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4564" y="3354"/>
         </scene>
         <!--Add Group-->
         <scene sceneID="hbk-ft-Oxq">
@@ -498,4 +642,7 @@
         <image name="btn_all_off" width="287" height="44"/>
         <image name="setting" width="21" height="21"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="t5W-0F-dlX"/>
+    </inferredMetricsTieBreakers>
 </document>

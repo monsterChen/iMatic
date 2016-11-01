@@ -40,7 +40,9 @@
     
     [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
-    [super genUINavigationRightButton:[UIImage imageNamed:@"save"] andSize:CGSizeMake(20, 20) andEvent:@selector(saveGroup)];
+    //[super genUINavigationLeftButton:@selector(saveGroup) andImage:[UIImage imageNamed:@"back"]];
+    
+    //[super genUINavigationRightButton:[UIImage imageNamed:@"save"] andSize:CGSizeMake(20, 20) andEvent:@selector(saveGroup)];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
     
@@ -79,11 +81,32 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+/*
 - (void)saveGroup {
 
+    if (self.groupName == nil || [self.collectionView numberOfItemsInSection:0] == 0) {
+    
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Warning" message:@"Do't want to complete the group" preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
+        }];
+        
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }else {
+        
+        [self.navigationController popToViewController:[self.navigationController.viewControllers objectAtIndex:3] animated:YES];
+    }
 }
-
+*/
 
 #pragma mark - Navigation
 
@@ -150,7 +173,35 @@
         
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            self.groupName = alertController.textFields.firstObject.text;
+            NSString *placeholder = alertController.textFields.firstObject.placeholder;
+            
+            if (placeholder == nil || placeholder.length == 0) {
+                //创建group
+                if (! [[DBManager shareInstance] isGroupNameExists:alertController.textFields.firstObject.text channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]]) {
+                    
+                    self.groupName = alertController.textFields.firstObject.text;
+                    
+                    [[DBManager shareInstance] createGroup:self.groupName channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+                }else {
+                    
+                    self.groupName = alertController.textFields.firstObject.placeholder;
+                    
+                    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+                    [SVProgressHUD showErrorWithStatus:@"This Name was exist"];
+                }
+            }else {
+                //更新group
+                if (! [[DBManager shareInstance] isGroupNameExists:alertController.textFields.firstObject.text channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]]) {
+                    
+                    self.groupName = alertController.textFields.firstObject.text;
+                    
+                    [[DBManager shareInstance]updateGroupName:placeholder newGroupName:alertController.textFields.firstObject.text channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+                }else {
+                    
+                    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+                    [SVProgressHUD showErrorWithStatus:@"This Name was exist"];
+                }
+            }
             
             [self.tableView reloadData];
             
@@ -173,13 +224,18 @@
             [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
             [SVProgressHUD showErrorWithStatus:@"Invalid GroupName"];
         }else {
+            /*
+            //判断该group名字是否已经存在
+            //创建该group，保存到数据库
+            BOOL isCreate = [[DBManager shareInstance] createGroup:self.groupName channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
             
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if (! isCreate) {
                 
-                [[DBManager shareInstance] createGroup:self.groupName channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
-            });
+                [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+                [SVProgressHUD showErrorWithStatus:@"This Name was exist"];
+            }
+            */
             
-
             [self performSegueWithIdentifier:@"ListViewController" sender:self];
         }
     }
@@ -247,16 +303,14 @@
     
     NSString *mark = (cell.status == CHANNEL_ON ? MakeItON : MakeItOff);
     
-    GroupModel *model = [self.cellListAray objectAtIndex:indexPath.row];
     
-    [[DBManager shareInstance] updateGroupButtonState:mark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:self.groupName index:model.index];
-    
-    /*
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
+        GroupModel *model = [self.cellListAray objectAtIndex:indexPath.row];
         
+        [[DBManager shareInstance] updateGroupButtonState:mark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:self.groupName index:model.index];
     });
-    */
+
     //NSLog(@"--> %d", cell.status);
 }
 

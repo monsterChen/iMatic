@@ -46,6 +46,11 @@
 		504103181DB2917E00205A22 /* ButtonNameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 504103171DB2917E00205A22 /* ButtonNameController.m */; };
 		5041031C1DB36ED500205A22 /* GroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5041031B1DB36ED500205A22 /* GroupViewController.m */; };
 		5041031F1DB3CB8700205A22 /* GroupSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5041031E1DB3CB8700205A22 /* GroupSetViewController.m */; };
+		50D8AF351DC71F0C00882E88 /* TimeListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF341DC71F0C00882E88 /* TimeListController.m */; };
+		50D8AF391DC7204A00882E88 /* timerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF381DC7204A00882E88 /* timerModel.m */; };
+		50D8AF3C1DC7242C00882E88 /* NSTimer+BlockSupports.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF3B1DC7242C00882E88 /* NSTimer+BlockSupports.m */; };
+		50D8AF3F1DC86B6400882E88 /* TimeSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF3E1DC86B6400882E88 /* TimeSetViewController.m */; };
+		50D8AF421DC899D000882E88 /* ListTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF411DC899D000882E88 /* ListTimeViewController.m */; };
 		DEF6E7787B883E041E81DBA6 /* libPods-OpenHardware.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 525FE350F07C11F19FA90568 /* libPods-OpenHardware.a */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +131,16 @@
 		5041031B1DB36ED500205A22 /* GroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupViewController.m; sourceTree = "<group>"; };
 		5041031D1DB3CB8700205A22 /* GroupSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupSetViewController.h; sourceTree = "<group>"; };
 		5041031E1DB3CB8700205A22 /* GroupSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupSetViewController.m; sourceTree = "<group>"; };
+		50D8AF331DC71F0C00882E88 /* TimeListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeListController.h; sourceTree = "<group>"; };
+		50D8AF341DC71F0C00882E88 /* TimeListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeListController.m; sourceTree = "<group>"; };
+		50D8AF371DC7204A00882E88 /* timerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timerModel.h; sourceTree = "<group>"; };
+		50D8AF381DC7204A00882E88 /* timerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = timerModel.m; sourceTree = "<group>"; };
+		50D8AF3A1DC7242C00882E88 /* NSTimer+BlockSupports.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+BlockSupports.h"; sourceTree = "<group>"; };
+		50D8AF3B1DC7242C00882E88 /* NSTimer+BlockSupports.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+BlockSupports.m"; sourceTree = "<group>"; };
+		50D8AF3D1DC86B6400882E88 /* TimeSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeSetViewController.h; sourceTree = "<group>"; };
+		50D8AF3E1DC86B6400882E88 /* TimeSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSetViewController.m; sourceTree = "<group>"; };
+		50D8AF401DC899D000882E88 /* ListTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTimeViewController.h; sourceTree = "<group>"; };
+		50D8AF411DC899D000882E88 /* ListTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTimeViewController.m; sourceTree = "<group>"; };
 		525FE350F07C11F19FA90568 /* libPods-OpenHardware.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenHardware.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		714B0891DC29DEAAA972D1F0 /* Pods-OpenHardware.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenHardware.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenHardware/Pods-OpenHardware.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -307,6 +322,7 @@
 		501601871DA93D6E00F4A5BD /* ConfigurationPanel */ = {
 			isa = PBXGroup;
 			children = (
+				50D8AF321DC71ED700882E88 /* TimeSchedule */,
 				504103191DB36CFB00205A22 /* GroupPanel */,
 				504103151DB2915400205A22 /* BasicPanel */,
 				501601981DAAA1E600F4A5BD /* View */,
@@ -357,6 +373,31 @@
 				500AB54D1DBB7A9300730D86 /* ListViewController.m */,
 			);
 			path = GroupPanel;
+			sourceTree = "<group>";
+		};
+		50D8AF321DC71ED700882E88 /* TimeSchedule */ = {
+			isa = PBXGroup;
+			children = (
+				50D8AF361DC7203900882E88 /* Model */,
+				50D8AF331DC71F0C00882E88 /* TimeListController.h */,
+				50D8AF341DC71F0C00882E88 /* TimeListController.m */,
+				50D8AF3D1DC86B6400882E88 /* TimeSetViewController.h */,
+				50D8AF3E1DC86B6400882E88 /* TimeSetViewController.m */,
+				50D8AF401DC899D000882E88 /* ListTimeViewController.h */,
+				50D8AF411DC899D000882E88 /* ListTimeViewController.m */,
+			);
+			path = TimeSchedule;
+			sourceTree = "<group>";
+		};
+		50D8AF361DC7203900882E88 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				50D8AF371DC7204A00882E88 /* timerModel.h */,
+				50D8AF381DC7204A00882E88 /* timerModel.m */,
+				50D8AF3A1DC7242C00882E88 /* NSTimer+BlockSupports.h */,
+				50D8AF3B1DC7242C00882E88 /* NSTimer+BlockSupports.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		AFB844B1DAD3092479B532F0 /* Frameworks */ = {
@@ -536,19 +577,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				500AB5551DBEDE9800730D86 /* GroupModel.m in Sources */,
+				50D8AF421DC899D000882E88 /* ListTimeViewController.m in Sources */,
 				501601731DA603E200F4A5BD /* HWNavigationController.m in Sources */,
 				501601971DAA9D5300F4A5BD /* IP_and_PortController.m in Sources */,
+				50D8AF391DC7204A00882E88 /* timerModel.m in Sources */,
 				500AB54E1DBB7A9300730D86 /* ListViewController.m in Sources */,
 				5016018A1DA93D9400F4A5BD /* ConfigurationListController.m in Sources */,
 				5041031C1DB36ED500205A22 /* GroupViewController.m in Sources */,
 				501601801DA76B9600F4A5BD /* baseViewController.m in Sources */,
 				501601371DA4EF1400F4A5BD /* ControlPanelViewController.m in Sources */,
 				5016017D1DA76B8000F4A5BD /* XFSegementView.m in Sources */,
+				50D8AF3C1DC7242C00882E88 /* NSTimer+BlockSupports.m in Sources */,
 				5016019B1DAAA20000F4A5BD /* settingCell.m in Sources */,
 				500AB5511DBBA4F800730D86 /* EGOManager.m in Sources */,
 				501601901DAA0B4300F4A5BD /* FileUnitManager.m in Sources */,
 				501601341DA4EF1400F4A5BD /* AppDelegate.m in Sources */,
 				501601931DAA34BB00F4A5BD /* DBManager.m in Sources */,
+				50D8AF3F1DC86B6400882E88 /* TimeSetViewController.m in Sources */,
+				50D8AF351DC71F0C00882E88 /* TimeListController.m in Sources */,
 				5016018D1DA9455100F4A5BD /* baseTableViewController.m in Sources */,
 				501601861DA813FF00F4A5BD /* channelAll.m in Sources */,
 				501601831DA7864300F4A5BD /* channelCellBtn.m in Sources */,

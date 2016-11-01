@@ -22,7 +22,7 @@
     
     [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
-    self.listArray = [[NSArray alloc] initWithObjects:@"Update IP & port", @"Basic", @"Group", nil];
+    self.listArray = [[NSArray alloc] initWithObjects:@"Update IP & port", @"Basic", @"Group", @"Time schedule",nil];
     
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
 }
@@ -73,6 +73,9 @@
     } else if (indexPath.row == 2) {
         
         [self performSegueWithIdentifier:@"groupViewController" sender:self];
+    } else if(indexPath.row == 3) {
+        
+        [self performSegueWithIdentifier:@"TimeListController" sender:self];
     }
 }
 

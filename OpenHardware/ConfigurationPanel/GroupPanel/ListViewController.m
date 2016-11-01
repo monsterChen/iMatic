@@ -47,7 +47,7 @@
     
     [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
-    [super genUINavigationRightButton:[UIImage imageNamed:@"save"] andSize:CGSizeMake(20, 20) andEvent:@selector(saveSelect)];
+    //[super genUINavigationRightButton:[UIImage imageNamed:@"save"] andSize:CGSizeMake(20, 20) andEvent:@selector(saveSelect)];
     
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
     
@@ -73,10 +73,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)saveSelect {
-
-    
-}
 
 #pragma mark - Table view data source
 
@@ -131,14 +127,13 @@
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     
-    [[DBManager shareInstance] updateGroupButtonSelectState:self.checkMark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:self.groupName index:indexPath.row];
-    
-    /*
+    //[[DBManager shareInstance] updateGroupButtonSelectState:self.checkMark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:self.groupName index:indexPath.row];
     
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         [[DBManager shareInstance] updateGroupButtonSelectState:self.checkMark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:self.groupName index:indexPath.row];
      
+        /*
         NSMutableArray *tmp = [NSMutableArray array];
         tmp = [[DBManager shareInstance] queryGroupButton:self.groupName channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
         
@@ -146,9 +141,9 @@
             
             NSLog(@"index->%ld, state->%u isSelect->%u", model.index, model.state, model.selectState);
         }
+         */
      
     });
-     */
 }
 
 /*

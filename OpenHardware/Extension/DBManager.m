@@ -230,7 +230,7 @@
         NSString *type = [self setupGroupType:isWifi];
         
         NSString *groupTable = [self setupGroupTable:channel];
-        NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET name = '%@' WHERE name = '%@' and type = '%@'", groupTable, groupName, newName, type];
+        NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET name = '%@' WHERE name = '%@' and type = '%@'", groupTable, newName, groupName, type];
         
         return [self.db executeUpdate:update];
     }
@@ -240,6 +240,7 @@
 
 - (BOOL)createGroup:(NSString *)groupName channel:(NSString *)channel isWifi:(BOOL)isWifi {
     
+    /*
     if (! [self isGroupNameExists:groupName channel:channel isWifi:isWifi]) {
         
         NSString *type = [self setupGroupType:isWifi];
@@ -251,6 +252,13 @@
     }
     //NSLog(@"exit group");
     return NO;
+     */
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *groupTable = [self setupGroupTable:channel];
+    NSString *insert = [NSString stringWithFormat:@"INSERT INTO %@ ", groupTable];
+    insert = [insert stringByAppendingString:@"(name, type) VALUES (?,?);"];
+    
+    return [self.db executeUpdate:insert, groupName, type];
 }
 
 

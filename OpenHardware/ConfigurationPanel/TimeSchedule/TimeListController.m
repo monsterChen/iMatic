@@ -1,31 +1,22 @@
 //
-//  HomeTableViewController.m
+//  TimeListController.m
 //  OpenHardware
 //
-//  Created by Kingyeung.Chan on 16/10/6.
+//  Created by Kingyeung.Chan on 2016/10/31.
 //  Copyright © 2016年 Kingyeung.Chan. All rights reserved.
 //
 
-#import "HomeTableViewController.h"
-#import "ControlPanelViewController.h"
-#import "EGOCache.h"
+#import "TimeListController.h"
+#import "timerModel.h"
+#import "EGOManager.h"
 
-@interface HomeTableViewController () {
-    
-    NSTimer *autoTimer;
-}
+@interface TimeListController ()
 
-@property (nonatomic, strong) NSArray *menuArray;
-
-@property (assign, nonatomic) NSString *channelCount;
-
-@property (assign, nonatomic) BOOL isWifi;
-
-@property (assign, nonatomic) BOOL isBasic;
+@property (nonatomic, strong) NSMutableArray *array;
 
 @end
 
-@implementation HomeTableViewController
+@implementation TimeListController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,38 +27,11 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    //self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    //self.tableView.backgroundColor = [UIColor darkGrayColor];
-    
-    self.menuArray = [NSArray arrayWithObjects:@"8 Channels", @"8 Channels with WiFi", @"16 Channels", @"16 Channels with WiFi", @"Buy It", nil];
+    [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
     
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
-}
-
-- (void)excute {
-
-    if (autoTimer) {
-        [autoTimer invalidate];
-        autoTimer = nil;
-    }
     
-    autoTimer = [NSTimer scheduledTimerWithTimeInterval:5.0f target:self selector:@selector(testPrint) userInfo:nil repeats:NO];
-    
-}
-
-- (void)cancelTimer {
-
-    if (autoTimer != nil) {
-        [autoTimer invalidate];
-        autoTimer = nil;
-    }
-    
-    NSLog(@"cancel");
-}
-
-- (void)testPrint {
-
-    NSLog(@"timer run");
+    self.array = [NSMutableArray array];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -89,65 +53,68 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 #warning Incomplete implementation, return the number of rows
-    return [self.menuArray count];
+    return 2;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"chennalTypeCell"];
     
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"timeListCell" forIndexPath:indexPath];
     
     // Configure the cell...
-    cell.textLabel.text = [self.menuArray objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.row == 0 || indexPath.row == 1) {
+    if (indexPath.row == 0) {
+        timerModel *model = [[timerModel alloc] init];
         
-        self.channelCount = @"8";
-    }else {
-    
-        self.channelCount = @"16";
+        NSDictionary *tmp = @{@"inOn":@"on", @"name":@"kevin"};
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setObject:tmp forKey:@"info"];
+        [dic setObject:[EGOManager getSelectChannelType] forKey:@"type"];
+        [dic setObject:([EGOManager getSelectisWifi]? @"1":@"0") forKey:@"isWifi"];
+        
+        [model start:4 info:dic];
+        
+        [self.array addObject:model];
+        
     }
     
-    if (indexPath.row == 0 || indexPath.row == 2) {
-        self.isWifi = NO;
-    }else {
-        self.isWifi = YES;
-    }
-    
-    if (indexPath.row != 4) {
+    if (indexPath.row == 1) {
+        NSLog(@"stop");
+        timerModel *model = (timerModel *)[self.array objectAtIndex:0];
         
-        [self performSegueWithIdentifier:@"showControllerPanel" sender:self];
+        [model stop];
     }
 }
 
-/*
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+    }/*
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }  
+      */
 }
-*/
 
 /*
 // Override to support rearranging the table view.
@@ -163,17 +130,14 @@
 }
 */
 
-
+/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    
-    ControlPanelViewController *viewController = [segue destinationViewController];
-    [viewController setIsWiFi:self.isWifi];
-    [viewController setChannelCount:self.channelCount];
 }
+*/
 
 @end

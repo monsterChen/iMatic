@@ -51,9 +51,11 @@
     // Dispose of any resources that can be recreated.
 }
 
+/*
 - (void)addGroup {
 
 }
+*/
 
 #pragma mark - Table view data source
 
@@ -81,8 +83,6 @@
     
     cell.textLabel.text = [self.listArray objectAtIndex:indexPath.row];
     
-    self.groupName = [self.listArray objectAtIndex:indexPath.row];
-    
     return cell;
 }
 
@@ -90,7 +90,9 @@
 
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    [self performSegueWithIdentifier:@"GroupSetViewController" sender:self];
+    self.groupName = [self.listArray objectAtIndex:indexPath.row];
+    
+    [self performSegueWithIdentifier:@"settingGroup" sender:self];
 }
 
 // Override to support conditional editing of the table view.
@@ -142,7 +144,7 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     
-    if ([segue.identifier isEqualToString:@"GroupSetViewController"]) {
+    if ([segue.identifier isEqualToString:@"settingGroup"]) {
         
         GroupSetViewController *controller = [segue destinationViewController];
         [controller setGroupName:self.groupName];

@@ -164,10 +164,14 @@
         // basic command
         self.all_BTN.hidden = NO;
         
+        self.listArray = [[[DBManager shareInstance] queryChannelBtnName:self.channelCount isWifi:self.isWiFi] mutableCopy];
+        
         [self.collectionnView reloadData];
     }else if(index == 1) {
         //groud command
         self.all_BTN.hidden = YES;
+        
+        self.listArray = [[DBManager shareInstance] queryGroupNameArray:self.channelCount isWifi:self.isWiFi];
         
         [self.collectionnView reloadData];
     }
@@ -182,7 +186,7 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
     if (self.all_BTN.hidden) {
-        return 0;
+        return [self.listArray count];
     }else {
         return [self.channelCount intValue];
     }
