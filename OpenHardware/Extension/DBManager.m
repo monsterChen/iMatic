@@ -59,11 +59,160 @@
             }
         }
         
+//        group
+        
         [self.db executeUpdate:@"CREATE TABLE IF NOT EXISTS group_16channel (name text,type text,btn_1 text DEFAULT '00', btn_2 text DEFAULT '00', btn_3 text DEFAULT '00', btn_4 text DEFAULT '00', btn_5 text DEFAULT '00', btn_6 text DEFAULT '00', btn_7 text DEFAULT '00', btn_8 text DEFAULT '00', btn_9 text DEFAULT '00', btn_10 text DEFAULT '00', btn_11 text DEFAULT '00', btn_12 text DEFAULT '00', btn_13 text DEFAULT '00', btn_14 text DEFAULT '00', btn_15 text DEFAULT '00', btn_16 text DEFAULT '00');"];
         
         [self.db executeUpdate:@"CREATE TABLE IF NOT EXISTS group_8channel (name text,type text,btn_1 text DEFAULT '00', btn_2 text DEFAULT '00', btn_3 text DEFAULT '00', btn_4 text DEFAULT '00', btn_5 text DEFAULT '00', btn_6 text DEFAULT '00', btn_7 text DEFAULT '00', btn_8 text DEFAULT '00');"];
+        
+//        time
+        
+        [self.db executeUpdate:@"CREATE TABLE IF NOT EXISTS time_16channel (name text, type text, time text, btn_1 text DEFAULT '00',btn_2 text DEFAULT '00', btn_3 text DEFAULT '00', btn_4 text DEFAULT '00', btn_5 text DEFAULT '00', btn_6 text DEFAULT '00', btn_7 text DEFAULT '00', btn_8 text DEFAULT '00', btn_9 text DEFAULT '00', btn_10 text DEFAULT '00', btn_11 text DEFAULT '00', btn_12 text DEFAULT '00', btn_13 text DEFAULT '00', btn_14 text DEFAULT '00', btn_15 text DEFAULT '00', btn_16 text DEFAULT '00');"];
+        
+        [self.db executeUpdate:@"CREATE TABLE IF NOT EXISTS time_8channel (name text,type text, time text, btn_1 text DEFAULT '00', btn_2 text DEFAULT '00', btn_3 text DEFAULT '00', btn_4 text DEFAULT '00', btn_5 text DEFAULT '00', btn_6 text DEFAULT '00', btn_7 text DEFAULT '00', btn_8 text DEFAULT '00');"];
     }
 }
+
+#pragma mark Time
+
+- (NSString *)setupTimeTable:(NSString *)channel {
+    
+    return [NSString stringWithFormat:@"time_%@channel", channel];
+}
+
+- (NSMutableArray *)queryTimeName:(NSString *)channel isWifi:(BOOL)isWifi {
+
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *timeTable = [self setupTimeTable:channel];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT name, time FROM %@ WHERE type = '%@'", timeTable, type];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    
+    NSMutableArray *nameArray = [NSMutableArray array];
+    NSMutableArray *timeArray = [NSMutableArray array];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    while (rs.next) {
+        
+        [nameArray addObject:[rs stringForColumn:@"name"]];
+        [timeArray addObject:[rs stringForColumn:@"time"]];
+    }
+    
+    [array addObject:nameArray];
+    [array addObject:timeArray];
+    
+    return array;
+}
+
+- (BOOL)deleteTimeByName:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi {
+    
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *timeTable = [self setupTimeTable:channel];
+    
+    NSString *delete = [NSString stringWithFormat:@"DELETE FROM %@ WHERE name = '%@' and type = '%@'", timeTable, name, type];
+    
+    return [self.db executeUpdate:delete];
+}
+
+- (BOOL)createTime:(NSString *)groupName channel:(NSString *)channel isWifi:(BOOL)isWifi {
+    
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *timeTable = [self setupTimeTable:channel];
+    NSString *insert = [NSString stringWithFormat:@"INSERT INTO %@ ", timeTable];
+    insert = [insert stringByAppendingString:@"(name, type) VALUES (?,?);"];
+    
+    return [self.db executeUpdate:insert, groupName, type];
+}
+
+- (BOOL)isTimeNameExists:(NSString *)timeName channel:(NSString *)channel isWifi:(BOOL)isWifi {
+    
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *timeTable = [self setupTimeTable:channel];
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE name = '%@' and type = '%@'", timeTable, timeName, type];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    
+    if (rs.next) {
+        
+        return YES;
+    }
+    
+    return NO;
+}
+
+- (BOOL)updateTimeStr:(NSString *)timeStr channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName {
+
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *timeTable = [self setupTimeTable:channel];
+    
+    NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET time = '%@' WHERE name = '%@' and type = '%@'", timeTable, timeStr, groupName, type];
+    
+    return [self.db executeUpdate:update];
+}
+
+- (BOOL)updateTimeButtonSelectState:(NSString *)Checkmark channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName index:(NSInteger)index{
+    
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *timeTable = [self setupTimeTable:channel];
+    
+    Checkmark = [Checkmark isEqualToString:@"1"] ? @"10" : @"00";
+    
+    NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET btn_%ld = '%@' WHERE name = '%@' and type = '%@'", timeTable, index+1, Checkmark, groupName, type];
+    
+    return [self.db executeUpdate:update];
+}
+
+- (BOOL)updateTimeButtonState:(NSString *)mark channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName index:(NSInteger)index  {
+    
+    NSString *type = [self setupGroupType:isWifi];
+    NSString *timeTable = [self setupTimeTable:channel];
+    
+    mark = [mark isEqualToString:@"1"] ? @"11" : @"10";
+    
+    NSString *update = [NSString stringWithFormat:@"UPDATE %@ SET btn_%ld = '%@' WHERE name = '%@' and type = '%@'", timeTable, index+1, mark, groupName, type];
+    
+    return [self.db executeUpdate:update];
+}
+
+- (NSMutableArray *)queryTimeButton:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi {
+    
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *timeTable = [self setupTimeTable:channel];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT * FROM %@ WHERE name = '%@' and type = '%@'", timeTable, name, type];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    
+    while (rs.next) {
+        
+        for(int i = 1; i <= [channel intValue]; i++) {
+            
+            NSString *btnColumn = [NSString stringWithFormat:@"btn_%d", i];
+            [array addObject:[rs stringForColumn:btnColumn]];
+        }
+    }
+    
+    NSMutableArray *groupArray = [NSMutableArray array];
+    
+    for(int i = 0; i < [array count]; i++) {
+        
+        GroupModel *model = [[GroupModel alloc] initGroup:[array objectAtIndex:i] index:i];
+        
+        [groupArray addObject:model];
+    }
+    
+    return groupArray;
+}
+
+
+#pragma mark Group
 
 - (NSString *)setupGroupType:(BOOL)isWifi {
 
@@ -74,6 +223,7 @@
 
     return [NSString stringWithFormat:@"group_%@channel", channel];
 }
+
 /**
  *  获取Group的按钮
  *
@@ -310,6 +460,8 @@
         }
     }
 }
+
+#pragma mark channel & ip & port
 //获取按钮名称列表数组
 - (NSMutableArray *)queryChannelBtnName:(NSString *)channelType isWifi:(BOOL)isWifi {
 

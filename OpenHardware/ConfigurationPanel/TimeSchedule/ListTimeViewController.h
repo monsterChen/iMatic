@@ -11,4 +11,6 @@
 
 @interface ListTimeViewController : baseTableViewController
 
+@property (nonatomic, strong) NSString *groupName;
+
 @end

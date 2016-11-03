@@ -184,7 +184,7 @@
                     [[DBManager shareInstance] createGroup:self.groupName channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
                 }else {
                     
-                    self.groupName = alertController.textFields.firstObject.placeholder;
+                    //self.groupName = alertController.textFields.firstObject.placeholder;
                     
                     [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
                     [SVProgressHUD showErrorWithStatus:@"This Name was exist"];

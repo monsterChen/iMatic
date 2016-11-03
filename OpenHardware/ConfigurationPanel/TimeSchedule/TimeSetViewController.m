@@ -8,6 +8,13 @@
 
 #import "TimeSetViewController.h"
 #import "HSDatePickerViewController.h"
+#import "ListTimeViewController.h"
+#import "channelCellBtn.h"
+#import "DBManager.h"
+#import "EGOManager.h"
+
+#define MakeItON    @"1"
+#define MakeItOff   @"0"
 
 @interface TimeSetViewController()<HSDatePickerViewControllerDelegate> {
 
@@ -18,6 +25,11 @@
     NSString *timeStr;
 }
 
+@property (strong, nonatomic) NSMutableArray *cellListAray;
+
+@property (strong, nonatomic) NSMutableArray *buttonNameArray;
+
+
 @end
 
 @implementation TimeSetViewController
@@ -25,6 +37,10 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+    
+    [self getGroupButtonArray];
+    
+    [self.collectionView reloadData];
 }
 
 - (void)viewDidLoad {
@@ -39,11 +55,38 @@
     [self.tableView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
     
     menuArray = [NSArray arrayWithObjects:@"Name", @"Time", @"Select Button", nil];
+    
+    [self.collectionView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
+    
+    [self getGroupButtonArray];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)getGroupButtonArray {
+    
+    self.cellListAray = [NSMutableArray array];
+    
+    NSArray *array = [[DBManager shareInstance] queryTimeButton:nameStr channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+    
+    for(GroupModel *model in array) {
+        
+        if (model.selectState == isSelect) {
+            
+            [self.cellListAray addObject:model];
+        }
+    }
+    
+    self.buttonNameArray = [NSMutableArray array];
+    NSArray *tmp = [[[DBManager shareInstance] queryChannelBtnName:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]] mutableCopy];
+    
+    for(GroupModel *model in self.cellListAray) {
+        
+        [self.buttonNameArray addObject:[tmp objectAtIndex:model.index]];
+    }
 }
 
 #pragma mark - Navigation
@@ -52,6 +95,12 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"ListTimeViewController"]) {
+        
+        ListTimeViewController *controller = segue.destinationViewController;
+        [controller setGroupName:nameStr];
+    }
 }
 
 #pragma mark UITableView delegate
@@ -112,6 +161,21 @@
         
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
+            NSString *placeholder = alertController.textFields.firstObject.placeholder;
+            
+            if (placeholder == nil || placeholder.length == 0) {
+                //创建timeGroup
+                if (! [[DBManager shareInstance] isTimeNameExists:alertController.textFields.firstObject.text channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]]) {
+                    
+                    nameStr = alertController.textFields.firstObject.text;
+                    [[DBManager shareInstance] createTime:nameStr channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+                }else {
+                    
+                    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+                    [SVProgressHUD showErrorWithStatus:@"This Name was exist"];
+                }
+            }
+            
             nameStr = alertController.textFields.firstObject.text;
             
             [self.tableView reloadData];
@@ -125,13 +189,24 @@
         [self presentViewController:alertController animated:YES completion:nil];
     }else if(indexPath.row == 1) {
         
-        HSDatePickerViewController *hsdpvc = [[HSDatePickerViewController alloc] init];
-        hsdpvc.delegate = self;
+        if (timeStr == nil || timeStr.length == 0) {
+            
+            HSDatePickerViewController *hsdpvc = [[HSDatePickerViewController alloc] init];
+            hsdpvc.delegate = self;
+            
+            [self presentViewController:hsdpvc animated:YES completion:nil];
+        }
         
-        [self presentViewController:hsdpvc animated:YES completion:nil];
     }else if(indexPath.row == 2) {
         
-        [self performSegueWithIdentifier:@"ListTimeViewController" sender:self];
+        if (nameStr == nil || nameStr.length == 0 || timeStr == nil || timeStr.length == 0) {
+            
+            [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+            [SVProgressHUD showErrorWithStatus:@"Invalid time or name"];
+        }else {
+         
+            [self performSegueWithIdentifier:@"ListTimeViewController" sender:self];
+        }
     }
 }
 
@@ -145,9 +220,27 @@
     
     NSString *currentDateStr = [formatter stringFromDate:date];
     
-    timeStr = currentDateStr;
+    //获取当前时间
+    NSDate *nowDate = [NSDate date];
+    //计算时间差
+    double interval = [date timeIntervalSinceDate:nowDate];
     
-    [self.tableView reloadData];
+    if (interval > 0) {
+        
+        timeStr = currentDateStr;
+        
+        [[DBManager shareInstance] updateTimeStr:timeStr channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:nameStr];
+        
+        [self.tableView reloadData];
+    }else {
+        
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+        [SVProgressHUD showErrorWithStatus:@"Date Error"];
+        
+        timeStr = nil;
+        
+        [self.tableView reloadData];
+    }
     
     //NSLog(@"time %@", currentDateStr);
 }
@@ -168,6 +261,59 @@
         //输入长度大于的字符后，激活okAction按钮
         okAction.enabled = btnName.text.length > 2;
     }
+}
+
+#pragma mark UICollectionView delegate
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+
+    return [self.cellListAray count];
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *identifier = @"channelCellBtn";
+    
+    channelCellBtn *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    
+    cell.labelText.text = [self.buttonNameArray objectAtIndex:indexPath.row];
+    
+    GroupModel *model = [self.cellListAray objectAtIndex:indexPath.row];
+    if (model.state == isOn) {
+        
+        cell.status = CHANNEL_ON;
+    }else {
+        
+        cell.status = CHANNEL_OFF;
+    }
+    
+    return cell;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return YES;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    channelCellBtn *cell = (channelCellBtn *)[collectionView cellForItemAtIndexPath:indexPath];
+    
+    [cell updateChannelStatus];
+    
+    NSString *mark = (cell.status == CHANNEL_ON ? MakeItON : MakeItOff);
+    
+    
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        GroupModel *model = [self.cellListAray objectAtIndex:indexPath.row];
+        //NSLog(@"%@", self.groupName);
+        [[DBManager shareInstance] updateTimeButtonState:mark channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi] groupName:nameStr index:model.index];
+    });
 }
 
 @end

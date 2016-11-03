@@ -48,5 +48,13 @@
 - (BOOL)createGroup:(NSString *)groupName channel:(NSString *)channel isWifi:(BOOL)isWifi;
 
 
+- (NSMutableArray *)queryTimeName:(NSString *)channel isWifi:(BOOL)isWifi;
+- (BOOL)deleteTimeByName:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi;
+- (BOOL)createTime:(NSString *)groupName channel:(NSString *)channel isWifi:(BOOL)isWifi;
+- (BOOL)isTimeNameExists:(NSString *)timeName channel:(NSString *)channel isWifi:(BOOL)isWifi;
+- (BOOL)updateTimeButtonSelectState:(NSString *)Checkmark channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName index:(NSInteger)index;
+- (BOOL)updateTimeButtonState:(NSString *)mark channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName index:(NSInteger)index;
+- (NSMutableArray *)queryTimeButton:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi;
+- (BOOL)updateTimeStr:(NSString *)timeStr channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName;
 
 @end
