@@ -8,35 +8,26 @@
 
 #import "timerModel.h"
 
-@implementation timerModel {
+@interface timerModel()<NSCoding>
 
-    NSTimer *timer;
-}
+@end
 
-- (instancetype)init {
+@implementation timerModel
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+
+    if (self = [super init]) {
+     
+        self.time = [aDecoder decodeObjectForKey:@"time"];
+    }
     
-    return [super init];
+    return self;
 }
 
-- (void)stop {
+- (void)encodeWithCoder:(NSCoder *)aCoder {
 
-    [timer invalidate];
-    timer = nil;
+    [aCoder encodeObject:self.time forKey:@"time"];
 }
 
-- (void)start:(NSTimeInterval)time info:(NSDictionary *)info{
-
-    __weak timerModel *weakSelf = self;
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:time target:weakSelf selector:@selector(doSomething:) userInfo:info repeats:NO];
-}
-
-- (void)doSomething:(NSTimer *)t {
-    
-    //[self.delegate sendCommand];
-    NSLog(@"-->>>>>");
-    
-    NSLog(@"%@", [t userInfo]);
-}
 
 @end

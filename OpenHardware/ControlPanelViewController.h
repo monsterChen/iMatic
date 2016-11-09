@@ -17,5 +17,6 @@
 
 @property (assign, nonatomic) BOOL isBasic;
 
+
 @end
 

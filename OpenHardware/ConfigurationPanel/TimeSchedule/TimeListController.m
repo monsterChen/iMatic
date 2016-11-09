@@ -12,6 +12,8 @@
 #import "EGOManager.h"
 #import "DBManager.h"
 
+#import "AppDelegate.h"
+
 @interface TimeListController ()
 
 @property (nonatomic, strong) NSMutableArray *array;
@@ -139,6 +141,20 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
+        
+        NSString *timeListKey = [NSString stringWithFormat:@"%@%d", [EGOManager getSelectChannelType], [EGOManager getSelectisWifi]];
+        
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSMutableArray *array = [app.scheduleDic objectForKey:timeListKey];
+        
+        NSTimer *timer = (NSTimer *)[array objectAtIndex:indexPath.row];
+        [timer invalidate];
+        
+        [array removeObjectAtIndex:indexPath.row];
+        
+        [app.scheduleDic setObject:array forKey:timeListKey];
+        
+        
         
         [[DBManager shareInstance] deleteTimeByName:[self.array objectAtIndex:indexPath.row] channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
         

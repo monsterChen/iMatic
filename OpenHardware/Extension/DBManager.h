@@ -56,5 +56,7 @@
 - (BOOL)updateTimeButtonState:(NSString *)mark channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName index:(NSInteger)index;
 - (NSMutableArray *)queryTimeButton:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi;
 - (BOOL)updateTimeStr:(NSString *)timeStr channel:(NSString *)channel isWifi:(BOOL)isWifi groupName:(NSString *)groupName;
+- (NSString *)queryTimeStrByName:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi;
+- (BOOL)dropTimeTable;
 
 @end

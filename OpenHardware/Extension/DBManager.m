@@ -75,6 +75,11 @@
 
 #pragma mark Time
 
+- (BOOL)dropTimeTable {
+
+    return [self.db executeUpdate:@"DROP TABLE time_16channel"] && [self.db executeUpdate:@"DROP TABLE time_8channel"];
+}
+
 - (NSString *)setupTimeTable:(NSString *)channel {
     
     return [NSString stringWithFormat:@"time_%@channel", channel];
@@ -209,6 +214,24 @@
     }
     
     return groupArray;
+}
+
+- (NSString *)queryTimeStrByName:(NSString *)name channel:(NSString *)channel isWifi:(BOOL)isWifi {
+
+    NSString *type = [self setupGroupType:isWifi];
+    
+    NSString *timeTable = [self setupTimeTable:channel];
+    
+    NSString *query = [NSString stringWithFormat:@"SELECT time FROM %@ WHERE name = '%@' and type = '%@'", timeTable, name, type];
+    
+    FMResultSet *rs = [self.db executeQuery:query];
+    
+    while (rs.next) {
+        
+        return [rs stringForColumn:@"time"];
+    }
+    
+    return nil;
 }
 
 
@@ -424,13 +447,13 @@
          *
          *  @return 
          */
-        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"8", @"182.168.1.4", @"30000"];
+        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"8", @"192.168.1.4", @"30000"];
         
-        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"8_wifi", @"182.168.1.4", @"30000"];
+        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"8_wifi", @"192.168.1.4", @"30000"];
         
-        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"16", @"182.168.1.4", @"3000"];
+        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"16", @"192.168.1.4", @"3000"];
         
-        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"16_wifi", @"182.168.1.4", @"30000"];
+        [self.db executeUpdate:@"INSERT INTO channel_info (type, ip, port) VALUES (?, ?, ?);", @"16_wifi", @"192.168.1.4", @"30000"];
         
         [self.db executeUpdate:@"INSERT INTO channel8_btnName (type) VALUES (?);", @"8"];
         [self.db executeUpdate:@"INSERT INTO channel8_btnName (type) VALUES (?);", @"8wifi"];

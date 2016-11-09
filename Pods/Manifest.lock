@@ -1,8 +1,12 @@
 PODS:
   - BGTableViewRowActionWithImage (0.3.6)
-  - CocoaAsyncSocket (7.5.0):
-    - CocoaAsyncSocket/GCD (= 7.5.0)
-  - CocoaAsyncSocket/GCD (7.5.0)
+  - CocoaAsyncSocket (7.4.3):
+    - CocoaAsyncSocket/All (= 7.4.3)
+  - CocoaAsyncSocket/All (7.4.3):
+    - CocoaAsyncSocket/GCD
+    - CocoaAsyncSocket/RunLoop
+  - CocoaAsyncSocket/GCD (7.4.3)
+  - CocoaAsyncSocket/RunLoop (7.4.3)
   - EGOCache (2.1.3)
   - Firebase/AdMob (3.7.1):
     - Firebase/Core
@@ -34,7 +38,7 @@ PODS:
 
 DEPENDENCIES:
   - BGTableViewRowActionWithImage
-  - CocoaAsyncSocket
+  - CocoaAsyncSocket (~> 7.4.3)
   - EGOCache
   - Firebase/AdMob
   - Firebase/Core
@@ -45,7 +49,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   BGTableViewRowActionWithImage: 3517276bcee26e559465bcca13151afc33ab6d2a
-  CocoaAsyncSocket: 3baeb1ddd969f81cf9fca81053ae49ef2d1cbbfa
+  CocoaAsyncSocket: a18c75dca4b08723628a0bacca6e94803d90be91
   EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
   Firebase: be473484f0d515e72ffd04acf22f981773c23e58
   FirebaseAnalytics: 0533a00b681e08fd0b2cd0444b7ddf0ef9fd7a1a
@@ -60,6 +64,6 @@ SPEC CHECKSUMS:
   HSDatePickerViewController: 5a72b71f8c3b10e76f2c28a898f8572b551432a6
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
 
-PODFILE CHECKSUM: d5b7ccf7ad4a1d4b0f771bc8a8bede012f57df82
+PODFILE CHECKSUM: 06cba6648bcdd5ac9c4d5be6903b39f4aa4f4266
 
 COCOAPODS: 1.0.1

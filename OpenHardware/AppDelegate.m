@@ -28,6 +28,8 @@
     
     [SVProgressHUD setMinimumDismissTimeInterval:1.2];
     
+    self.scheduleDic = [NSMutableDictionary dictionary];
+    
     return YES;
 }
 
@@ -53,6 +55,10 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     [[EGOCache globalCache] clearCache];
+    
+    [self.scheduleDic removeAllObjects];
+    
+    [[DBManager shareInstance] dropTimeTable];
 }
 
 @end

@@ -75,9 +75,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgu-tX-f0v" customClass="channelAll">
                                 <rect key="frame" x="177" y="504" width="246" height="37"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="37" id="7Kc-18-IYp"/>
+                                    <constraint firstAttribute="height" constant="37" id="A9W-yd-IAw"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="37" id="GrG-z5-hWf"/>
-                                    <constraint firstAttribute="width" constant="246" id="lXH-j1-nYf"/>
+                                    <constraint firstAttribute="width" constant="246" id="qiT-DK-atZ"/>
                                 </constraints>
                                 <state key="normal" image="btn_all_off"/>
                                 <variation key="default">
@@ -91,16 +91,16 @@
                         <constraints>
                             <constraint firstItem="ztg-ax-dIU" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.58" id="32E-19-chD"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ztg-ax-dIU" secondAttribute="trailing" constant="-20" id="5DG-pW-Hzn"/>
+                            <constraint firstItem="xgu-tX-f0v" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7gN-wg-uB8"/>
                             <constraint firstItem="ztg-ax-dIU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="AIG-5b-amR"/>
                             <constraint firstItem="CRo-AJ-seX" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="FL7-aN-LSo"/>
                             <constraint firstItem="fvP-6Q-3Kv" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="L7c-xo-Qph"/>
-                            <constraint firstItem="xgu-tX-f0v" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="OQ6-Eh-7eb"/>
                             <constraint firstItem="CRo-AJ-seX" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Q3e-Yy-tgb"/>
                             <constraint firstItem="ztg-ax-dIU" firstAttribute="top" secondItem="CRo-AJ-seX" secondAttribute="bottom" constant="38" id="SAe-XX-82g"/>
                             <constraint firstAttribute="trailingMargin" secondItem="CRo-AJ-seX" secondAttribute="trailing" constant="-20" id="atx-Br-QA7"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="xgu-tX-f0v" secondAttribute="bottom" constant="59" id="iFB-QJ-cWR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fvP-6Q-3Kv" secondAttribute="trailing" constant="-20" id="lnv-wI-O4C"/>
                             <constraint firstItem="fvP-6Q-3Kv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="tX3-5O-p1s"/>
+                            <constraint firstItem="xgu-tX-f0v" firstAttribute="top" secondItem="ztg-ax-dIU" secondAttribute="bottom" constant="4" id="uY0-hI-g57"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Control Panel" id="uiB-NT-z5I">

@@ -12,22 +12,37 @@
 #import "channelCellBtn.h"
 #import "DBManager.h"
 #import "EGOManager.h"
+#import "timerModel.h"
+
+#import "GCDAsyncSocket.h"
+#import "AppDelegate.h"
+#import "CommandCode.h"
+#import "timerModel.h"
 
 #define MakeItON    @"1"
 #define MakeItOff   @"0"
 
-@interface TimeSetViewController()<HSDatePickerViewControllerDelegate> {
+@interface TimeSetViewController()<HSDatePickerViewControllerDelegate, GCDAsyncSocketDelegate> {
 
     NSArray *menuArray;
     
     NSString *nameStr;
     
     NSString *timeStr;
+    
+    GCDAsyncSocket *clientStock;
+    
+    NSTimer *_timer;
 }
 
 @property (strong, nonatomic) NSMutableArray *cellListAray;
 
 @property (strong, nonatomic) NSMutableArray *buttonNameArray;
+
+
+@property (strong, nonatomic) NSArray *commandCode_ON;
+
+@property (strong, nonatomic) NSArray *commandCode_OFF;
 
 
 @end
@@ -47,7 +62,8 @@
 
     [super viewDidLoad];
     
-    [super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
+    //[super genUINavigationLeftBcakButton:[UIImage imageNamed:@"back"]];
+    [super genUINavigationLeftButton:@selector(back) andImage:[UIImage imageNamed:@"back"]];
     
     [self.view setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
     
@@ -59,6 +75,117 @@
     [self.collectionView setBackgroundColor:[UIColor colorWithRed:242.0/255 green:243.0/255 blue:244.0/255 alpha:1.0]];
     
     [self getGroupButtonArray];
+}
+
+- (void)back {
+    
+    
+    if (timeStr != nil) {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *date = [dateFormatter dateFromString:timeStr];
+        
+        //获取当前时间
+        NSDate *nowDate = [NSDate date];
+        //计算时间差
+        double interval = [date timeIntervalSinceDate:nowDate];
+        
+        _timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scheduldSendCommand:) userInfo:[NSString stringWithFormat:@"%@", timeStr] repeats:NO];
+        
+        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
+        
+        NSString *timeListKey = [NSString stringWithFormat:@"%@%d", [EGOManager getSelectChannelType], [EGOManager getSelectisWifi]];
+        
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        if ([app.scheduleDic valueForKey:timeListKey] == nil) {
+            
+            NSMutableArray *array = [NSMutableArray array];
+            [array addObject:_timer];
+            
+            [app.scheduleDic setObject:array forKey:timeListKey];
+        }else {
+            
+            NSMutableArray *array = [app.scheduleDic objectForKey:timeListKey];
+            [array addObject:_timer];
+            
+            [app.scheduleDic setObject:array forKey:timeListKey];
+        }
+        
+    }
+
+    /*
+    timerModel *model = [[timerModel alloc] init];
+    NSDictionary *tmp = @{@"index":@"1", @"object":self};
+    [model start:2 info:tmp];
+    */
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)scheduldSendCommand:(NSTimer *)t {
+
+    //NSLog(@"--->>>>>> %@", [t userInfo]);
+    
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    clientStock = app.clientStock;
+    [clientStock setDelegate:self];
+    
+    self.commandCode_ON = [CommandCode initCommaneCode_ON:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+    
+    self.commandCode_OFF = [CommandCode initCommaneCode_OFF:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+    
+    if (clientStock.isConnected ||clientStock.isDisconnected) {
+        
+        //[clientStock writeData:[CommandCode decode8:[self.commandCode_ON objectAtIndex:0]] withTimeout:1 tag:-1];
+        //[clientStock readDataWithTimeout:1 tag:-1];
+        
+        //[clientStock connectToHost:@"192.168.1.4" onPort:30000 withTimeout:5 error:nil];
+        
+        NSArray *array = [[DBManager shareInstance] queryTimeButton:nameStr channel:[EGOManager getSelectChannelType] isWifi:[EGOManager getSelectisWifi]];
+        
+        for(GroupModel *model in array) {
+            
+            if (model.selectState == isSelect) {
+                
+                NSString *code;
+                if (model.state == isOn) {
+                    
+                    code = [self.commandCode_ON objectAtIndex:model.index];
+                }else if(model.state == isOFF) {
+                    
+                    code = [self.commandCode_OFF objectAtIndex:model.index];
+                }
+                
+                if ([[EGOManager getSelectChannelType] isEqualToString:@"8"]) {
+                    
+                    [clientStock writeData:[CommandCode decode8:code] withTimeout:2 tag:-1];
+                }else if ([[EGOManager getSelectChannelType] isEqualToString:@"16"]) {
+                    
+                    [clientStock writeData:[CommandCode decode16:code] withTimeout:2 tag:-1];
+                }
+            }
+        }
+    }
+
+}
+
+#pragma mark GCDAsyncSocket delegate
+- (void)socket:(GCDAsyncSocket *)sock didReadData:(NSData *)data withTag:(long)tag {
+
+    NSLog(@"Read");
+}
+- (void)socket:(GCDAsyncSocket *)sock didWriteDataWithTag:(long)tag {
+
+    NSLog(@"write");
+}
+- (void)socketDidDisconnect:(GCDAsyncSocket *)sock withError:(NSError *)err {
+    
+    NSLog(@"--->>>>%@", err);
+}
+
+- (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port {
+    
+    NSLog(@"did connect");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -189,12 +316,19 @@
         [self presentViewController:alertController animated:YES completion:nil];
     }else if(indexPath.row == 1) {
         
-        if (timeStr == nil || timeStr.length == 0) {
+        if (nameStr == nil || nameStr.length == 0) {
             
-            HSDatePickerViewController *hsdpvc = [[HSDatePickerViewController alloc] init];
-            hsdpvc.delegate = self;
+            [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+            [SVProgressHUD showErrorWithStatus:@"Invalid name"];
+        }else {
+        
+            if (timeStr == nil || timeStr.length == 0) {
             
-            [self presentViewController:hsdpvc animated:YES completion:nil];
+                HSDatePickerViewController *hsdpvc = [[HSDatePickerViewController alloc] init];
+                hsdpvc.delegate = self;
+            
+                [self presentViewController:hsdpvc animated:YES completion:nil];
+            }
         }
         
     }else if(indexPath.row == 2) {

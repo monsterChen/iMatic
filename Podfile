@@ -1,6 +1,6 @@
 target ‘OpenHardware’ do
 pod 'SVProgressHUD'
-pod 'CocoaAsyncSocket'
+pod 'CocoaAsyncSocket','~>7.4.3'
 pod 'Harpy'
 pod 'EGOCache'
 pod 'BGTableViewRowActionWithImage'

@@ -51,6 +51,7 @@
 		50D8AF3C1DC7242C00882E88 /* NSTimer+BlockSupports.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF3B1DC7242C00882E88 /* NSTimer+BlockSupports.m */; };
 		50D8AF3F1DC86B6400882E88 /* TimeSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF3E1DC86B6400882E88 /* TimeSetViewController.m */; };
 		50D8AF421DC899D000882E88 /* ListTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF411DC899D000882E88 /* ListTimeViewController.m */; };
+		50D8AF451DCB1B0C00882E88 /* CommandCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D8AF441DCB1B0C00882E88 /* CommandCode.m */; };
 		DEF6E7787B883E041E81DBA6 /* libPods-OpenHardware.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 525FE350F07C11F19FA90568 /* libPods-OpenHardware.a */; };
 /* End PBXBuildFile section */
 
@@ -141,6 +142,8 @@
 		50D8AF3E1DC86B6400882E88 /* TimeSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeSetViewController.m; sourceTree = "<group>"; };
 		50D8AF401DC899D000882E88 /* ListTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListTimeViewController.h; sourceTree = "<group>"; };
 		50D8AF411DC899D000882E88 /* ListTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListTimeViewController.m; sourceTree = "<group>"; };
+		50D8AF431DCB1B0C00882E88 /* CommandCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandCode.h; sourceTree = "<group>"; };
+		50D8AF441DCB1B0C00882E88 /* CommandCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommandCode.m; sourceTree = "<group>"; };
 		525FE350F07C11F19FA90568 /* libPods-OpenHardware.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OpenHardware.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		714B0891DC29DEAAA972D1F0 /* Pods-OpenHardware.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OpenHardware.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OpenHardware/Pods-OpenHardware.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -275,6 +278,8 @@
 				504103131DB253A000205A22 /* IdentifierValidator.m */,
 				500AB54F1DBBA4F800730D86 /* EGOManager.h */,
 				500AB5501DBBA4F800730D86 /* EGOManager.m */,
+				50D8AF431DCB1B0C00882E88 /* CommandCode.h */,
+				50D8AF441DCB1B0C00882E88 /* CommandCode.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -591,6 +596,7 @@
 				5016019B1DAAA20000F4A5BD /* settingCell.m in Sources */,
 				500AB5511DBBA4F800730D86 /* EGOManager.m in Sources */,
 				501601901DAA0B4300F4A5BD /* FileUnitManager.m in Sources */,
+				50D8AF451DCB1B0C00882E88 /* CommandCode.m in Sources */,
 				501601341DA4EF1400F4A5BD /* AppDelegate.m in Sources */,
 				501601931DAA34BB00F4A5BD /* DBManager.m in Sources */,
 				50D8AF3F1DC86B6400882E88 /* TimeSetViewController.m in Sources */,

@@ -8,14 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-
-
 @interface timerModel : NSObject
 
-- (void)start:(NSTimeInterval)time info:(NSDictionary *)info;
+@property (nonatomic, strong) id time;
 
-- (void)stop;
-
-//- (void)doSomething;
 
 @end
