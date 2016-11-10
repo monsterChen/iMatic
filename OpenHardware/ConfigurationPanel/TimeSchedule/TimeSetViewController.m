@@ -91,7 +91,7 @@
         //计算时间差
         double interval = [date timeIntervalSinceDate:nowDate];
         
-        _timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(scheduldSendCommand:) userInfo:[NSString stringWithFormat:@"%@", timeStr] repeats:NO];
+        _timer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(scheduldSendCommand:) userInfo:[NSString stringWithFormat:@"%@", timeStr] repeats:NO];
         
         [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
         
